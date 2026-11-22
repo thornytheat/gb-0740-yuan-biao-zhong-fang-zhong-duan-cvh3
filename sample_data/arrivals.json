@@ -1,0 +1,37 @@
+{
+  "heads": [
+    {"dataset": "orders", "day": "2026-11-18", "version": "p18", "rows": 1018},
+    {"dataset": "orders", "day": "2026-11-19", "version": "p19", "rows": 1019},
+    {"dataset": "orders", "day": "2026-11-20", "version": "p20", "rows": 1020},
+    {"dataset": "orders", "day": "2026-11-21", "version": "p21", "rows": 1021},
+    {"dataset": "facts", "day": "2026-11-21", "version": "f21", "rows": 1021},
+    {"dataset": "buyers", "day": "2026-11-21", "version": "b21", "rows": 121},
+    {"dataset": "day0", "day": "2026-11-21", "version": "d21", "rows": 1142},
+    {"dataset": "ops", "day": "2026-11-21", "version": "o21", "rows": 500}
+  ],
+  "arrivals": [
+    {"system": "backup", "dataset": "orders", "day": "2026-11-21", "version": "p21", "rows": 1021, "previous": "p20", "arrived_at": "2026-11-22T06:10:00Z"},
+    {"system": "backup", "dataset": "orders", "day": "2026-11-21", "version": "p22", "rows": 1022, "previous": "p21", "arrived_at": "2026-11-22T06:20:00Z"},
+    {"system": "backup", "dataset": "orders", "day": "2026-11-21", "version": "p22", "rows": 1022, "previous": "p21", "arrived_at": "2026-11-22T06:21:00Z"},
+    {"system": "primary", "dataset": "orders", "day": "2026-11-21", "version": "p22", "rows": 1022, "previous": "p21", "arrived_at": "2026-11-22T06:40:00Z"},
+    {"system": "backup", "dataset": "orders", "day": "2026-11-22", "version": "n22", "rows": 1030, "previous": null, "arrived_at": "2026-11-22T06:05:00Z"},
+    {"system": "primary", "dataset": "facts", "day": "2026-11-21", "version": "f22", "rows": "１,０２２", "previous": "f21", "arrived_at": "2026-11-22T06:30:00Z"},
+    {"system": "backup", "dataset": "buyers", "day": "2026-11-21", "version": "b22", "count": 122, "previous": "b21", "arrived_at": "2026-11-22T06:15:00Z"},
+    {"system": "backup", "dataset": "orders", "day": "2026-11-20", "version": "p20", "rows": 1020, "previous": "p19", "arrived_at": "2026-11-22T06:11:00Z"},
+    {"system": "primary", "dataset": "orders", "day": "2026-11-20", "version": "p20", "rows": 999, "previous": "p19", "arrived_at": "2026-11-22T06:50:00Z"},
+    {"system": "primary", "dataset": "orders", "day": "2026-11-19", "version": "p19b", "rows": 1019, "previous": "p19", "arrived_at": "2026-11-22T06:35:00Z"},
+    {"system": "backup", "dataset": "orders", "day": "2026-11-19", "version": "b19x", "rows": 1019, "previous": "p19", "arrived_at": "2026-11-22T06:36:00Z"},
+    {"system": "primary", "dataset": "orders", "day": "2026-11-18", "version": "p18x", "rows": 1018, "previous": "p18", "arrived_at": "2026-11-22T06:40:00Z"},
+    {"system": "backup", "dataset": "orders", "day": "2026-11-18", "version": "p18x", "rows": 999, "previous": "p18", "arrived_at": "2026-11-22T06:41:00Z"},
+    {"system": "backup", "dataset": "facts", "day": "2026-11-22", "version": "fx22", "rows": 1022, "previous": "f-ghost", "arrived_at": "2026-11-22T06:25:00Z"},
+    {"system": "primary", "dataset": "buyers", "day": "2026-11-22", "version": "b22", "rows": 122, "previous": null, "arrived_at": "2026-11-22T06:45:00Z"},
+    {"system": "primary", "dataset": "buyers", "day": "2026-11-22", "version": "b22", "rows": 122, "previous": null, "arrived_at": "2026-11-22T06:46:00Z"},
+    {"system": "backup", "dataset": "day0", "day": "2026-11-21", "version": "d22", "rows": 1144, "previous": "d21", "arrived_at": "2026-11-22T06:00:00Z"},
+    {"system": "primary", "dataset": "day0", "day": "2026-11-21", "version": "d23", "rows": 1146, "previous": "d22", "arrived_at": "2026-11-22T06:55:00Z"},
+    {"system": "primary", "dataset": "ops", "day": "2026-11-21", "version": "o22", "rows": 500, "previous": "o21", "arrived_at": "2026-11-22T06:31:00Z"},
+    {"system": "primary", "dataset": "ops", "day": "2026-11-21", "version": "o22", "rows": 501, "previous": "o21", "arrived_at": "2026-11-22T06:32:00Z"},
+    {"system": "backup", "dataset": "buyers", "day": "2026-11-15", "version": "legacy-15", "rows": "N/A", "previous": "b14", "arrived_at": "2026-11-22T06:12:00Z"},
+    {"system": "mirror", "dataset": "facts", "day": "2026-11-21", "version": "f22", "rows": 1022, "previous": "f21", "arrived_at": "2026-11-22T06:33:00Z"},
+    {"system": "primary", "dataset": "day0", "day": "2026-11-22", "rows": 1100, "previous": null, "arrived_at": "2026-11-22T06:58:00Z"}
+  ]
+}

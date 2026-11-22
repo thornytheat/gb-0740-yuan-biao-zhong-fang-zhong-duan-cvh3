@@ -1,11 +1,13 @@
 import os
 
-from app.config import MAX_BYTES, ROOT, SAMPLES, VERSION
+from app.config import ADOPTION_SAMPLES, MAX_BYTES, ROOT, SAMPLES, VERSION
 from app.keys import ReplayError
 from app.modules import VIEWS, register
 from app.modules.m7_release.service import execute
 from app.modules.m7_release.store import Catalog
-from app.web import fixture, record, repository
+from app.modules.m8_adoption.service import execute as adopt
+from app.modules.m8_adoption.store import Ledger
+from app.web import arrival_fixture, conclusion, fixture, ledger, record, repository
 from flask import Flask, abort, jsonify, render_template, request, url_for
 
 
@@ -21,6 +23,7 @@ def create_app(options=None):
     app.json.ensure_ascii = False
     app.json.sort_keys = False
     app.extensions["plans"] = Catalog(app.config["DB"])
+    app.extensions["adoptions"] = Ledger(app.config["DB"])
     register(app)
 
     @app.get("/health")
@@ -58,6 +61,24 @@ def create_app(options=None):
             tasks=rows,
             filter_state=state,
             latest=repository().latest() if section == "release" else [],
+        )
+
+    @app.get("/console/adoption")
+    def adoption_console():
+        key = request.args.get("conclusion")
+        result = conclusion(key) if key else adopt(ledger(), arrival_fixture("arrivals"))[0]
+        return render_template(
+            "adoption.html",
+            views=VIEWS,
+            active="adoption",
+            caption="来源采信",
+            inputs=ADOPTION_SAMPLES,
+            sample=request.args.get("sample", "arrivals"),
+            data=result,
+            meta=result["批次"],
+            summary=result["勾稽"],
+            reused=request.args.get("reused") == "yes",
+            latest=ledger().latest(),
         )
 
     @app.get("/api/plans")

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% from 'lines.jinja' import panel %}
+{% block exportlink %}<a href="{{ url_for('adoption.export', key=meta['编号']) }}">下载采信结论</a>{% endblock %}
+{% block kpis %}<div class="kpis" aria-label="采信统计">{% for name in ['到达记录','采信新版本','维持现行','不可采信','搁置记录'] %}<span>{{ name }} <strong>{{ summary[name] }}</strong></span>{% endfor %}</div>{% endblock %}
+{% block command %}<section class="panel command"><h2>$ adoption decide</h2><form action="/api/adoptions" method="post" enctype="multipart/form-data" id="planner">
+        <label>到达快照<select name="sample">{% for key,label in inputs.items() %}<option value="{{ key }}" {% if key==sample %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+        <label>上传快照<input type="file" name="bundle" accept=".json,application/json"></label>
+        <button type="submit">生成采信结论</button>
+        <output id="result" role="status">{% if reused %}已复用结论{% endif %}</output>
+      </form><span class="shortcut"><kbd>/</kbd> 选择清单</span></section>{% endblock %}
+{% block section %}
+{{ panel('采信结论', data['采信']) }}
+{{ panel('不可采信', data['不可采信']) }}
+<section class="panel output"><h2>搁置候选 <small>{{ data['搁置']|length }} 项</small></h2>
+{% if data['搁置'] %}<div class="scroll" tabindex="0" aria-label="搁置候选"><table>
+<thead><tr>{% for key in ['源行','分区','系统','版本','行数','原因码','说明','证据摘要','原始记录'] %}<th scope="col">{{ key }}</th>{% endfor %}</tr></thead>
+<tbody>{% for row in data['搁置'] %}<tr>
+  <td class="num">{{ row['源行'] }}</td><td>{{ row['分区'] or '—' }}</td><td>{{ row['系统'] or '—' }}</td>
+  <td>{{ row['版本'] or '—' }}</td><td class="num">{{ row['行数'] if row['行数'] is not none else '—' }}</td>
+  <td>{{ row['原因码'] }}</td><td>{{ row['说明'] }}</td><td><code>{{ row['证据摘要'] }}</code></td>
+  <td><code>{{ row['原始记录']|tojson }}</code></td>
+</tr>{% endfor %}</tbody></table></div>
+{% else %}<p class="empty">当前清单没有条目。</p>{% endif %}
+</section>
+<section class="panel trailer"><h2>$ adoption balance</h2><div>记录差 <strong>{{ summary['记录差'] }}</strong></div><div>分区差 <strong>{{ summary['分区差'] }}</strong></div><div>冲突候选 {{ summary['冲突候选'] }} 项</div></section>
+<section class="panel output"><h2>近期结论</h2><ul class="versions">{% for item in latest %}<li><a href="{{ url_for('adoption_console', conclusion=item['编号']) }}">{{ item['编号'] }}</a> · {{ item['生成时间'] }}</li>{% endfor %}</ul></section>
+{% endblock %}

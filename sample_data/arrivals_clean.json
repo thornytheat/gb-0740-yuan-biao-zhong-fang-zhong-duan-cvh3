@@ -1,0 +1,12 @@
+{
+  "heads": [
+    {"dataset": "orders", "day": "2026-11-21", "version": "p21", "rows": 1021},
+    {"dataset": "facts", "day": "2026-11-21", "version": "f21", "rows": 1021}
+  ],
+  "arrivals": [
+    {"system": "backup", "dataset": "orders", "day": "2026-11-21", "version": "p22", "rows": 1022, "previous": "p21", "arrived_at": "2026-11-22T06:20:00Z"},
+    {"system": "primary", "dataset": "orders", "day": "2026-11-21", "version": "p22", "rows": 1022, "previous": "p21", "arrived_at": "2026-11-22T06:40:00Z"},
+    {"system": "backup", "dataset": "orders", "day": "2026-11-21", "version": "p22", "rows": 1022, "previous": "p21", "arrived_at": "2026-11-22T06:21:00Z"},
+    {"system": "backup", "dataset": "facts", "day": "2026-11-21", "version": "f22", "rows": 1022, "previous": "f21", "arrived_at": "2026-11-22T06:15:00Z"}
+  ]
+}

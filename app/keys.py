@@ -1,5 +1,5 @@
 import re
-from datetime import date
+from datetime import date, datetime
 from unicodedata import normalize
 
 
@@ -23,6 +23,15 @@ def day(value):
 
 def partition(dataset, date_text):
     return f"{identifier(dataset)}@{day(date_text).isoformat()}"
+
+
+def timestamp(value):
+    if not isinstance(value, str) or not re.fullmatch(
+        r"20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z", value
+    ):
+        raise ValueError("到达时间需要 YYYY-MM-DDTHH:MM:SSZ")
+    datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+    return value
 
 
 def nonnegative_count(value):

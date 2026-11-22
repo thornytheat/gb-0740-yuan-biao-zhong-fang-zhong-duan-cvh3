@@ -1,4 +1,4 @@
-from app.config import SAMPLES
+from app.config import ADOPTION_SAMPLES, SAMPLES
 from app.keys import ReplayError
 from flask import abort, current_app
 
@@ -16,5 +16,22 @@ def record(key):
 
 def fixture(slug):
     if not isinstance(slug, str) or slug not in SAMPLES:
+        raise ReplayError("SAMPLE", "请选择已登记的清单")
+    return (current_app.config["INPUTS"] / f"{slug}.json").read_bytes()
+
+
+def ledger():
+    return current_app.extensions["adoptions"]
+
+
+def conclusion(key):
+    value = ledger().get(key)
+    if not value:
+        abort(404)
+    return value
+
+
+def arrival_fixture(slug):
+    if not isinstance(slug, str) or slug not in ADOPTION_SAMPLES:
         raise ReplayError("SAMPLE", "请选择已登记的清单")
     return (current_app.config["INPUTS"] / f"{slug}.json").read_bytes()

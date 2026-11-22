@@ -14,6 +14,7 @@
 | M5 回滚校验 | 核对写入前后与恢复哈希 | `GET /api/rollback/{id}` | `app/modules/m5_rollback/service.py` | `tests/test_rollback.py` |
 | M6 行数勾稽 | 守恒比较影响分区、源记录和行数 | `GET /api/reconcile/{id}` | `app/modules/m6_reconcile/service.py` | `tests/test_reconcile.py` |
 | M7 版本签发 | 在近期计划中复用并下载清单 | `GET /api/release/{id}` | `app/modules/m7_release/service.py` | `tests/test_release.py` |
+| M8 来源采信 | 对双源到达逐分区判定采信、搁置与不可采信 | `POST /api/adoptions` · `GET /api/adoptions/{id}[/replay\|/rollback\|/export]` | `app/modules/m8_adoption/service.py` | `tests/test_adoption.py` |
 
 ## 陷阱登记
 
@@ -29,6 +30,12 @@
 | TRAP-20 | clean.json 添加回边 | 排序丢结点或死循环 | 深度优先检测访问栈 | `app/modules/m2_graph/service.py` | `tests/test_graph.py::test_cycle_path_from_sample` |
 | TRAP-23 | nightly.json 截点紧邻滞后一日 | 越界写入 | 分区日显式切界 | `app/modules/m4_schedule/expansion.py` | `tests/test_schedule.py::test_cutoff_included_but_lagged_next_day_excluded` |
 | TRAP-26 | 演练前计划引用旧指针 | 覆盖新版本 | 检查所有写入前置值 | `app/modules/m5_rollback/service.py` | `tests/test_rollback.py::test_stale_snapshot_atomic` |
+| TRAP-27 | 备用先到、主系统晚到同版本 | 按到达先后采信 | 到达时间只作证据，同内容采主系统 | `app/modules/m8_adoption/service.py` | `tests/test_adoption.py::test_primary_wins_despite_later_arrival` |
+| TRAP-28 | 备用重发旧版本 | 旧版本盖掉现行 | 谱系深度判定，旧版搁置维持现行 | `app/modules/m8_adoption/service.py` | `tests/test_adoption.py::test_resent_old_version_never_overwrites` |
+| TRAP-29 | 双源同版本行数不一致 | 随机采信一份 | 证据冲突不可采信，现行仍可读 | `app/modules/m8_adoption/service.py` | `tests/test_adoption.py::test_cross_system_row_clash_blocked` |
+| TRAP-30 | 同系统重发同版本不同内容 | 后到覆盖先到 | 整组搁置并标记分区冲突 | `app/modules/m8_adoption/service.py` | `tests/test_adoption.py::test_same_system_resend_conflict` |
+| TRAP-31 | 重试同一到达快照 | 生成第二份结论 | 内容寻址 INSERT OR IGNORE 复用 | `app/modules/m8_adoption/store.py` | `tests/test_adoption.py::test_retry_never_creates_second_conclusion` |
+| TRAP-32 | 搁置候选原证据被误删 | 无法复核 | 原始记录随结论存档，只增不删 | `app/modules/m8_adoption/store.py` | `tests/test_adoption.py::test_shelved_evidence_preserved` |
 
 ## 已知边界
 

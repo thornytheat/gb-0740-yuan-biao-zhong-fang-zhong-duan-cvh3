@@ -14,3 +14,4 @@ VIEWS = {
 def register(app):
     for number, name in enumerate(VIEWS, 1):
         app.register_blueprint(import_module(f"app.modules.m{number}_{name}.handler").api)
+    app.register_blueprint(import_module("app.modules.m8_adoption.handler").api)
